@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using HerbavitaCMR.Services;
+using Microsoft.Extensions.Logging;
 
 namespace HerbavitaCMR
 {
@@ -15,8 +16,10 @@ namespace HerbavitaCMR
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddSingleton<CMRService>();
+            builder.Services.AddSingleton<CustomHttpMessageHandler>();
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

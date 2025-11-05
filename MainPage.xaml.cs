@@ -1,24 +1,88 @@
-﻿namespace HerbavitaCMR
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using HerbavitaCMR.Models;
+using HerbavitaCMR.Services;
+using HerbavitaCMR.Views;
+using Microsoft.Maui.Controls; // SelectionChangedEventArgs, CollectionView
+
+namespace HerbavitaCMR
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        readonly CMRService _cmrService = new();
+        bool _isLoaded;
+
+        public ObservableCollection<Document> Documents { get; } = new();
 
         public MainPage()
         {
             InitializeComponent();
+            BindingContext = this;
         }
 
-        private void OnCounterClicked(object? sender, EventArgs e)
+        protected override async void OnAppearing()
         {
-            count++;
+            base.OnAppearing();
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+            if (_isLoaded)
+                return;
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            await LoadDataAsync();
+            _isLoaded = true;
+        }
+
+        async Task LoadDataAsync()
+        {
+            try
+            {
+                var cmrDocuments = await _cmrService.GetCmrDocumentAsync(forceRefresh: true);
+                Documents.Clear();
+                if (cmrDocuments != null)
+                {
+                    foreach (var d in cmrDocuments)
+                        Documents.Add(d);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading data: {ex.Message}");
+            }
+        }
+
+        [Obsolete]
+        async void Documents_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedDocument = e.CurrentSelection?.FirstOrDefault() as Document;
+            if (selectedDocument == null)
+            {
+                if (sender is CollectionView cv) cv.SelectedItem = null;
+                return;
+            }
+
+            try
+            {
+                var previewPage = new CmrPreviewPage(selectedDocument);
+
+                if (Navigation != null)
+                {
+                    await Navigation.PushAsync(previewPage);
+                }
+                else if (Application.Current != null)
+                {
+                    Application.Current.MainPage = new NavigationPage(previewPage);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Navigation failed: {ex.Message}");
+            }
+            finally
+            {
+                if (sender is CollectionView collectionView)
+                    collectionView.SelectedItem = null;
+            }
         }
     }
 }

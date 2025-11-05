@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HerbavitaCMR.Views.CmrPreviewPage"
+             Title="CMR Preview"
+             BackgroundColor="White"
+             Padding="8">
+
+    <ScrollView>
+        <Border Stroke="Red" StrokeThickness="2" Padding="6" BackgroundColor="White">
+            <Grid RowSpacing="8" ColumnSpacing="8">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <Grid Grid.Row="0" ColumnSpacing="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="120" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="1" FontSize="28" FontAttributes="Bold" TextColor="Red" VerticalOptions="Start" />
+
+                    <StackLayout Grid.Column="1" Spacing="2">
+                        <Label Text="LETTRE DE VOITURE / VRACHTBRIEF / FRACHTBRIEF"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="Red" />
+                        <Label Text="Conditions and header text..." FontSize="10" TextColor="Red" />
+                    </StackLayout>
+
+                    <Frame Grid.Column="2" BorderColor="Red" HasShadow="False" Padding="8" CornerRadius="6">
+                        <Button x:Name="BtnSend" Text="CMR" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Red" FontAttributes="Bold" Clicked="OnSendClicked"/>
+                    </Frame>
+                </Grid>
+
+                <!-- Main form -->
+                <Grid Grid.Row="1" ColumnSpacing="8" RowSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Left column: boxes 1 & 2 -->
+                    <StackLayout Grid.Column="0" Grid.Row="0" Spacing="8">
+                        <!-- Box 1: Consignor -->
+                        <Border Stroke="Red" StrokeThickness="1" Padding="8">
+                            <StackLayout>
+                                <Label Text="1 Expéditeur / Consignor" FontAttributes="Bold" TextColor="Red" />
+                                <Label x:Name="ConsignorCompanyLabel" FontSize="14" />
+                                <Label x:Name="ConsignorAddressLabel">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span x:Name="ConsignorAddressSpan" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label x:Name="ConsignorEmailLabel" FontSize="12" TextColor="Gray" />
+                            </StackLayout>
+                        </Border>
+
+                        <!-- Box 2: Consignee -->
+                        <Border Stroke="Red" StrokeThickness="1" Padding="8">
+                            <StackLayout>
+                                <Label Text="2 Destinataire / Consignee" FontAttributes="Bold" TextColor="Red" />
+                                <Label x:Name="ConsigneeCompanyLabel" FontSize="14" />
+                                <Label x:Name="ConsigneeAddressLabel">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span x:Name="ConsigneeAddressSpan" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label x:Name="ConsigneeEmailLabel" Text="Consignee email: awaiting data" FontSize="12" TextColor="Gray" />
+                            </StackLayout>
+                        </Border>
+                    </StackLayout>
+
+                    <!-- Boxes 3 & 4 -->
+                    <StackLayout Grid.Column="0" Grid.Row="1" Spacing="8">
+                        <Border Stroke="Red" StrokeThickness="1" Padding="8">
+                            <StackLayout>
+                                <Label Text="3 Prise en charge / Pickup (place, date, heure)" FontAttributes="Bold" TextColor="Red" />
+                                <Label x:Name="PickupPlaceLabel" />
+                                <Label x:Name="PickupDateLabel" />
+                                <Label x:Name="PickupReferenceLabel" Text="Reference: -" />
+                            </StackLayout>
+                        </Border>
+
+                        <Border Stroke="Red" StrokeThickness="1" Padding="8">
+                            <StackLayout>
+                                <Label Text="4 Livraison / Delivery (place, date, heure)" FontAttributes="Bold" TextColor="Red" />
+                                <Label x:Name="DeliveryAddressLabel" />
+                                <Label x:Name="DeliveryPostcodeLabel" />
+                                <Label x:Name="DeliveryCityLabel" />
+                                <Label x:Name="DeliveryDateLabel" />
+                            </StackLayout>
+                        </Border>
+                    </StackLayout>
+
+                    <!-- Right column: boxes 5..7 -->
+                    <StackLayout Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Spacing="8">
+                        <Border Stroke="Red" StrokeThickness="1" Padding="8">
+                            <StackLayout>
+                                <Label Text="5 Transporteur principal / Primary carrier" FontAttributes="Bold" TextColor="Red" />
+                                <Label x:Name="ShipperCompanyLabel" />
+                                <Label x:Name="ShipperAddressLabel" />
+                                <Label x:Name="ShipperEmailLabel" FontSize="12" TextColor="Gray" />
+                                <Label x:Name="ShipperLicenseLabel" FontSize="12" TextColor="Gray" IsVisible="False" />
+                            </StackLayout>
+                        </Border>
+
+                        <Border Stroke="Red" StrokeThickness="1" Padding="8">
+                            <StackLayout>
+                                <Label Text="6 Sous-traitant / Subcontractor" FontAttributes="Bold" TextColor="Red" />
+                                <Label Text="Awaiting subcontractor data..." TextColor="Gray" />
+                            </StackLayout>
+                        </Border>
+
+                        <Border Stroke="Red" StrokeThickness="1" Padding="8">
+                            <StackLayout>
+                                <Label Text="7 Suivant / Successive carriers" FontAttributes="Bold" TextColor="Red" />
+                                <CollectionView x:Name="SuccessiveCarriersCollectionView" HeightRequest="120" SelectionMode="None" EmptyView="No successive carriers">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackLayout Orientation="Vertical">
+                                                <Label Text="{Binding name}" FontAttributes="Bold" />
+                                                <Label Text="{Binding license}" FontSize="12" TextColor="Gray"/>
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </StackLayout>
+                        </Border>
+                    </StackLayout>
+
+                    <!-- Goods table spanning full width -->
+                    <Border Grid.Row="3" Grid.ColumnSpan="2" Stroke="Red" StrokeThickness="1" Padding="8" Margin="0,4,0,0">
+                        <StackLayout>
+                            <Label Text="10 Goods / Description of goods" FontAttributes="Bold" TextColor="Red" />
+
+                            <!-- Updated: bind to per-item view that includes ADR text for the item -->
+                            <CollectionView x:Name="GoodsCollectionView" ItemsLayout="VerticalList" SelectionMode="None" HeightRequest="220">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <VerticalStackLayout Padding="4" Spacing="2">
+                                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" VerticalOptions="Center" Padding="4">
+                                                <!-- Item number -->
+                                                <Label Grid.Column="0"
+                                                       Text="{Binding ItemNumber}"
+                                                       WidthRequest="120"
+                                                       FontAttributes="Bold"
+                                                       VerticalOptions="Center"
+                                                       TextColor="Black" />
+
+                                                <!-- Description + Quantity (kept adjacent) -->
+                                                <Grid Grid.Column="1" ColumnDefinitions="*,Auto" ColumnSpacing="8" VerticalOptions="Center">
+                                                    <Label Grid.Column="0"
+                                                           Text="{Binding Description}"
+                                                           LineBreakMode="TailTruncation"
+                                                           FontSize="14"
+                                                           VerticalOptions="Center"
+                                                           TextColor="Black" />
+
+                                                    <Label Grid.Column="1"
+                                                           FontSize="14"
+                                                           VerticalOptions="Center"
+                                                           TextColor="Black"
+                                                           HorizontalOptions="Start">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{Binding Quantity, StringFormat='{}{0:0}'}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="{Binding UnitOfMeasure}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </Grid>
+                                            </Grid>
+
+                                            <!-- Per-item ADR text (remains below the single-line item) -->
+                                            <Label Text="{Binding AdrTextAllLanguages}"
+                                                   FontSize="12"
+                                                   TextColor="Black"
+                                                   LineBreakMode="WordWrap"
+                                                   Margin="8,0,0,0" />
+                                        </VerticalStackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                            <HorizontalStackLayout HorizontalOptions="Start" Spacing="12" Padding="0,4,0,4">
+                                <Label x:Name="PalletCountLabel" FontAttributes="Bold" TextColor="Black" />
+                                <Label x:Name="PalletTotalWeightLabel" FontAttributes="Bold" TextColor="Black" />
+                            </HorizontalStackLayout>
+                        </StackLayout>
+                    </Border>
+                </Grid> 
+
+                <!-- Middle boxes (8,9) -->
+                <Grid Grid.Row="2" ColumnSpacing="8" RowSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Stroke="Red" StrokeThickness="1" Padding="8">
+                        <StackLayout>
+                            <Label Text="8 Frais afférents au transport / Transport costs" FontAttributes="Bold" TextColor="Red" />
+                            <Label x:Name="Box8Label" Text="Awaiting transport cost info..." TextColor="Gray" />
+                        </StackLayout>
+                    </Border>
+
+                    <Border Grid.Column="1" Stroke="Red" StrokeThickness="1" Padding="8">
+                        <StackLayout>
+                            <Label Text="9 Réserves du transporteur / Reservations" FontAttributes="Bold" TextColor="Red" />
+                            <Label x:Name="Box9Label" Text="Awaiting reservation data..." TextColor="Gray" />
+                        </StackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Large notes -->
+                <Grid Grid.Row="3" ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Stroke="Red" StrokeThickness="1" Padding="8">
+                        <StackLayout>
+                            <Label Text="11 Documents annexes / Attached documents" FontAttributes="Bold" TextColor="Red" />
+                            <Label x:Name="Box11Label" Text="Awaiting attached documents..." TextColor="Gray" HeightRequest="80" />
+                            <Label Text="13 Instructions de l'expéditeur / Consignor instructions" FontAttributes="Bold" TextColor="Red" Margin="0,8,0,0" />
+                            <Label x:Name="Box13Label" Text="Awaiting consignor instructions..." TextColor="Gray" HeightRequest="80" />
+                        </StackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Footer -->
+                <Grid Grid.Row="4" ColumnSpacing="8" RowSpacing="8" Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Stroke="Red" StrokeThickness="1" Padding="8" HorizontalOptions="Start" WidthRequest="220">
+                        <StackLayout>
+                            <Label Text="12 Place and date" FontAttributes="Bold" TextColor="Red" />
+                            <Label x:Name="FooterPlaceLabel" />
+                            <Label x:Name="FooterDateLabel" />
+                        </StackLayout>
+                    </Border>
+
+                    <Grid Grid.Column="1" ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Stroke="Red" StrokeThickness="1" Padding="8">
+                            <StackLayout>
+                                <Label Text="14 Consignor (signature)" FontAttributes="Bold" TextColor="Red" />
+                                <Label x:Name="FooterConsignorName" />
+                                <Label x:Name="FooterConsignorAddress" FontSize="12" TextColor="Gray" />
+                                <Label Text="Signed in absence of consignor: ..." FontSize="12" TextColor="Gray" />
+                            </StackLayout>
+                        </Border>
+
+                        <Border Grid.Column="1" Stroke="Red" StrokeThickness="1" Padding="8">
+                            <StackLayout>
+                                <Label Text="15 Carrier (signature/info)" FontAttributes="Bold" TextColor="Red" />
+                                <Label x:Name="FooterCarrierName" />
+                                <Label x:Name="FooterCarrierAddress" FontSize="12" TextColor="Gray" />
+                                <Label x:Name="CarrierSignatureLabel" Text="Driver signed electronically — awaiting timestamp" FontSize="12" TextColor="Gray" />
+                            </StackLayout>
+                        </Border>
+
+                        <Border Grid.Column="2" Stroke="Red" StrokeThickness="1" Padding="8">
+                            <StackLayout>
+                                <Label Text="16 Recipient / Signature" FontAttributes="Bold" TextColor="Red" />
+                                <Label x:Name="Box16Label" Text="Signature area — awaiting signature data" TextColor="Gray" />
+                                <Label x:Name="FooterPalletsLabel" FontSize="12" TextColor="Gray" />
+                            </StackLayout>
+                        </Border>
+                    </Grid>
+                </Grid>
+
+            </Grid>
+        </Border>
+    </ScrollView>
+</ContentPage>
