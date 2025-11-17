@@ -11,7 +11,7 @@ namespace HerbavitaCMR.Services
     {
 
         // Centralized base address (update this if the API address changes)
-        public static readonly Uri BaseAddress = new Uri("https://192.168.0.137:7236/");
+        public static readonly Uri BaseAddress = new Uri("https://192.168.0.154:7236/");
 
         public CustomHttpMessageHandler()
             : base(new HttpClientHandler

@@ -277,22 +277,52 @@ namespace HerbavitaCMR.Views
                 {
                     // Use per-item pallet counts and keep item quantity as actual quantity
                     doc.PalletCountPerItem.TryGetValue(pi.ItemId, out var palletsForItem);
+                    
+                    // Get ADR texts for this specific item
+                    var itemAdrs = doc.ItemAdrs?.Where(adr => adr.ItemId == pi.ItemId).ToList() ?? new List<Document.ItemAdr>();
+                    
+                    // Create dangerous goods descriptions with language support
+                    var dangerousGoodsDescriptions = itemAdrs.Select(adr => new
+                    {
+                        language = GetLanguageCode(adr.LanguageId), // Convert language ID to code
+                        description = new
+                        {
+                            adrDescription = adr.AdrText,
+                            environmentallyHazardous = "", // Add if available in your data
+                            specialProvisions = "", // Add if available
+                            specialProvisionsForCarriage = "", // Add if available
+                            carriageUnderDerogation = "" // Add if available
+                        }
+                    }).ToArray();
+
                     return new
                     {
-                        externalId = (int?)null,
+                        externalId = pi.ItemId.ToString(),
                         code = pi.ItemNumber,
                         description = pi.Description,
                         quantity = pi.Quantity, // item quantity
-                        palletCount = palletsForItem, // number of pallets for this item
-                        netWeight = pi.Quantity, // Or compute actual weight (assumes kg unit)
-                        netWeightUnit = "kg",
-                        packagingDetails = new List<object>()
+                        grossWeight = pi.TotalGrossWeight, // Or compute actual weight (assumes kg unit)
+                        grossWeightUnit = pi.UnitOfMeasure ?? "kg",
+                        netWeight = pi.Quantity,
+                        netWeightUnit = pi.UnitOfMeasure ?? "kg",
+                        packagingDetails = new List<object>(),
+                        
+                        // ADR Information - Primary field for dangerous goods descriptions
+                        dangerousGoodsDescriptions = dangerousGoodsDescriptions.Length > 0 ? dangerousGoodsDescriptions : null,
+                        
+                        // Alternative structured dangerous goods info if needed
+                        dangerousGoodsInfo = itemAdrs.Any() ? itemAdrs.Select(adr => new
+                        {
+                            code = "", // UN number if available
+                            technicalName = adr.AdrText,
+                            additionalDescription = adr.AdrText
+                        }).ToArray() : null
                     };
                 }).ToArray(),
                 transportationCosts = doc.TransportationCosts, // Blank string OK
                 carrierReservationInformation = doc.CarrierReservationInformation,
-                goodsInformation = doc.AdrTextAllLanguages,
-                goodsText = doc.AdrTextAllLanguages,
+                goodsInformation = doc.AdrTextAllLanguages, // Document-level ADR text
+                goodsText = doc.AdrTextAllLanguages, // Document-level ADR text
                 consignorDocuments = doc.ConsignorDocuments,
                 consignorInstructions = doc.ConsignorInstructions,
                 empties = new List<object>(), // Add if returnables needed
@@ -379,6 +409,19 @@ namespace HerbavitaCMR.Views
             public string? TokenType { get; set; }
             [JsonPropertyName("expires_in")]
             public int ExpiresIn { get; set; }
+        }
+
+        // Helper method to convert language ID to language code
+        private static string GetLanguageCode(int languageId)
+        {
+            return languageId switch
+            {
+                1 => "en", // Dutch
+                2 => "fr", // French  
+                3 => "en", // English
+                4 => "de", // German
+                _ => "nl"  // Default to Dutch
+            };
         }
     }
 }

@@ -210,9 +210,12 @@
                                                            TextColor="{StaticResource PrimaryText}">
                                                         <Label.FormattedText>
                                                             <FormattedString>
-                                                                <Span Text="{Binding Quantity, StringFormat='{}{0:0.##}'}" />
+                                                                <!-- show net and gross weight, keep gross present -->
+                                                                <Span Text="{Binding NetWeight, StringFormat='Net: {0:0.##}'}" />
                                                                 <Span Text=" " />
                                                                 <Span Text="{Binding UnitOfMeasure}" />
+                                                                <Span Text="  /  " />
+                                                                <Span Text="{Binding GrossWeight, StringFormat='Gross: {0:0.##} kg'}" />
                                                             </FormattedString>
                                                         </Label.FormattedText>
                                                     </Label>

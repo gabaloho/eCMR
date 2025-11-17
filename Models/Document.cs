@@ -111,7 +111,10 @@ namespace HerbavitaCMR.Models
             return counts;
         }
         [JsonIgnore]
-        public decimal PalletTotalWeight => PalletItems?.Sum(pi => pi.Quantity) ?? 0m;
+        public decimal PalletTotalWeight => PalletItems?.Sum(pi => (decimal)pi.TotalGrossWeight) ?? 0m;
+        // Replace the problematic property with the correct null-coalescing and type usage
+[JsonIgnore]
+public double TotalWeight => PalletItems?.Sum(pi => pi.TotalGrossWeight) ?? 0.0;
         // For unbound labels (customize as needed)
         [JsonIgnore]
         public string DossierNumber => DocumentNumber; // Assuming "Dossier" means customer name; alt: DocumentNumber or Id.ToString()
@@ -216,7 +219,8 @@ namespace HerbavitaCMR.Models
                 {
                     ItemNumber = pi.ItemNumber,
                     Description = pi.Description,
-                    Quantity = pi.Quantity,
+                    NetWeight = pi.Quantity,
+                    GrossWeight = (double)pi.TotalGrossWeight,
                     UnitOfMeasure = pi.UnitOfMeasure,
                     AdrTextAllLanguages = adrText
                 });
@@ -228,7 +232,11 @@ namespace HerbavitaCMR.Models
         {
             public string ItemNumber { get; init; } = string.Empty;
             public string Description { get; init; } = string.Empty;
+            // Quantity retained as net weight (existing consumers)
             public decimal Quantity { get; init; }
+            // New: explicit net and gross weight properties
+            public decimal NetWeight { get; init; }
+            public double GrossWeight { get; init; }
             public string UnitOfMeasure { get; init; } = string.Empty;
             public string AdrTextAllLanguages { get; init; } = string.Empty;
         }
@@ -324,6 +332,10 @@ namespace HerbavitaCMR.Models
             public string Description { get; set; } = string.Empty;
             [JsonPropertyName("unitOfMeasure")]
             public string UnitOfMeasure { get; set; } = string.Empty;
+            [JsonPropertyName("itemWeightGross ")]
+            public double ItemWeightGross { get; set; }
+            [JsonPropertyName("totalGrossWeight")]
+            public double TotalGrossWeight { get; set; }
         }
         public class ItemAdr
         {
