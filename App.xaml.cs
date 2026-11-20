@@ -1,4 +1,4 @@
-﻿namespace HerbavitaCMR
+﻿namespace modelCmr
 {
     public partial class App : Application
     {

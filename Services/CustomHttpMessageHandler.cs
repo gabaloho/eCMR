@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HerbavitaCMR.Services
+namespace modelCmr.Services
 {
     public class CustomHttpMessageHandler : DelegatingHandler
     {

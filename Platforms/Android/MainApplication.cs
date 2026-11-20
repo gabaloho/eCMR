@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace HerbavitaCMR
+namespace modelCmr
 {
     [Application]
     public class MainApplication : MauiApplication

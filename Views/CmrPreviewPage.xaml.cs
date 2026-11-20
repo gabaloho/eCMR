@@ -8,10 +8,10 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using Microsoft.Maui.Controls;
-using HerbavitaCMR.Models;
-using HerbavitaCMR.Services;
+using modelCmr.Models;
+using modelCmr.Services;
 
-namespace HerbavitaCMR.Views
+namespace modelCmr.Views
 {
     public partial class CmrPreviewPage : ContentPage
     {

@@ -2,12 +2,12 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using HerbavitaCMR.Models;
-using HerbavitaCMR.Services;
-using HerbavitaCMR.Views;
+using modelCmr.Models;
+using modelCmr.Services;
+using modelCmr.Views;
 using Microsoft.Maui.Controls; // SelectionChangedEventArgs, CollectionView
 
-namespace HerbavitaCMR
+namespace modelCmr
 {
     public partial class MainPage : ContentPage
     {

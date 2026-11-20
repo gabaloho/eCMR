@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json.Serialization;
 
-namespace HerbavitaCMR.Models
+namespace modelCmr.Models
 {
     // Represents one item of the "value" array in the API response
     public class Document

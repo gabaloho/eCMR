@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace HerbavitaCMR
+namespace modelCmr
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

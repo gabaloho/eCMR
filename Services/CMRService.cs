@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using HerbavitaCMR.Models;
+using modelCmr.Models;
 using System.Net.Http;
 
-namespace HerbavitaCMR.Services
+namespace modelCmr.Services
 {
     public class CMRService
     {
