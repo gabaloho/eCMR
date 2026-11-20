@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace HerbavitaCMR
+namespace modelCmr
 {
     public class Program
     {

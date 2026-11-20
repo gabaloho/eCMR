@@ -1,7 +1,7 @@
-﻿using HerbavitaCMR.Services;
+﻿using modelCmr.Services;
 using Microsoft.Extensions.Logging;
 
-namespace HerbavitaCMR
+namespace modelCmr
 {
     public static class MauiProgram
     {

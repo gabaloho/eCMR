@@ -2,7 +2,7 @@ using System;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace HerbavitaCMR
+namespace modelCmr
 {
     internal class Program : MauiApplication
     {
